@@ -23,6 +23,8 @@ services:
       dockerfile: Dockerfile-dev
     ports:
       - "8085:8085"
+    env_file:
+      - .env
     environment:
       server.port: 8085
       app.jwt.secret: ${APP_JWT_TOKEN}
