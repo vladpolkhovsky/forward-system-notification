@@ -1,0 +1,27 @@
+FROM gradle:jdk21-alpine AS greadle-download
+
+ENV GRADLE_USER_HOME="/home/.gradle"
+
+WORKDIR /app
+
+RUN gradle --version
+
+COPY build.gradle.kts build.gradle.kts
+COPY settings.gradle.kts settings.gradle.kts
+
+RUN gradle tasks
+
+FROM gradle:jdk21-alpine AS runner
+
+ENV GRADLE_USER_HOME="/home/.gradle"
+
+COPY --from=greadle-download /home/.gradle /home/.gradle
+COPY --from=greadle-download /app /app
+
+WORKDIR /app
+
+COPY src src
+
+RUN gradle build -x test
+
+CMD ["gradle", "bootRun"]

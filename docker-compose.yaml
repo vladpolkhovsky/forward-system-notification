@@ -1,0 +1,62 @@
+services:
+
+  fs-notification-nginx-dev:
+    image: nginx:alpine
+    container_name: nginx-proxy-dev
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles:
+      - "dev"
+    networks:
+      - bot-network
+
+  fs-notification-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-dev
+    ports:
+      - "8085:8085"
+    environment:
+      server.port: 8085
+      app.jwt.secret: ${APP_JWT_TOKEN}
+      app.telegram.notification.token: ${APP_BOT_TG_TOKEN_NOTIFICATION}
+      app.telegram.customer.token: ${APP_BOT_TG_TOKEN_CUSTOMER}
+      spring.datasource.url: ${APP_DB_URL}
+      spring.datasource.username: ${APP_DB_USERNAME}
+      spring.datasource.password: ${APP_DB_PASSWORD}
+      server.servlet.context-path: /api/bot
+      server.max-http-request-header-size: 10MB
+      server.tomcat.max-http-post-size: 10MB
+      spring.servlet.multipart.max-file-size: 10MB
+      spring.servlet.multipart.max-request-size: 10MB
+    restart: unless-stopped
+    networks:
+      - nginx-le-network
+      - bot-network
+
+  fs-notification-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8086:80"
+    networks:
+      - nginx-le-network
+      - bot-network
+
+volumes:
+  quiz-pgdata:
+
+networks:
+  bot-network:
+    driver: bridge
+  nginx-le-network:
+    external: true
