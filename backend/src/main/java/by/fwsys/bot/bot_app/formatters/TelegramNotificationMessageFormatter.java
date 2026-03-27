@@ -2,6 +2,7 @@ package by.fwsys.bot.bot_app.formatters;
 
 import by.fwsys.bot.bot_app.dto.SendCustomerMessageDto;
 import by.fwsys.bot.bot_app.dto.SendNotificationMessageDto;
+import by.fwsys.bot.bot_app.enums.TargetMessengerType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -28,5 +29,10 @@ public class TelegramNotificationMessageFormatter extends AbstractNotificationMe
                 .chatId("---")
                 .parseMode("MarkdownV2")
                 .build();
+    }
+
+    @Override
+    public TargetMessengerType getType() {
+        return TargetMessengerType.TELEGRAM;
     }
 }

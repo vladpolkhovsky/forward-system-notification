@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.Immutable;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Entity
 @Immutable
+@FieldNameConstants
 @Table(name = "users", schema = "forward_system")
 public class UserEntity {
 

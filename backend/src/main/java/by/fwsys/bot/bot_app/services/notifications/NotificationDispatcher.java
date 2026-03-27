@@ -60,7 +60,7 @@ public class NotificationDispatcher {
     private void saveHistory(SendNotificationMessageDto messageDto) {
         SendNotificationHistoryEntity history = new SendNotificationHistoryEntity();
         history.setMessenger(messageDto.getMessenger());
-        history.setTargetUserId(history.getTargetUserId());
+        history.setTargetUserId(messageDto.getTargetUserId());
         history.setMessageDto(messageDto);
         sendNotificationHistoryRepository.save(history);
         log.debug("Notification history saved");

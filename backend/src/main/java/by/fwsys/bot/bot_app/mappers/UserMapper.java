@@ -1,6 +1,7 @@
 package by.fwsys.bot.bot_app.mappers;
 
 import by.fwsys.bot.bot_app.dto.UserDto;
+import by.fwsys.bot.bot_app.dto.UserShortDto;
 import by.fwsys.bot.bot_app.models.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import org.mapstruct.Mapper;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     UserDto toDto(UserEntity entity);
+
+    UserShortDto toShortDto(UserEntity userEntity);
 
     default Map<String, String> toClaims(UserEntity entity) {
         if (entity == null) {

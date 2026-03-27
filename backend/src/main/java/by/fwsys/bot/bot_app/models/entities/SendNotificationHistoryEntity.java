@@ -5,6 +5,7 @@ import by.fwsys.bot.bot_app.enums.TargetMessengerType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@FieldNameConstants
 @Table(name = "bot_notification_history", schema = "forward_system")
 public class SendNotificationHistoryEntity {
 

@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 
 	implementation("io.hypersistence:hypersistence-utils-hibernate-71:3.15.2")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
 
 	implementation("org.mapstruct:mapstruct:1.6.3")
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")

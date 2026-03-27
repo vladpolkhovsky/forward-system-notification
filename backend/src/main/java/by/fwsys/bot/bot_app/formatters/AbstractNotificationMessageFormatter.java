@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class AbstractNotificationMessageFormatter<T> implements NotificationMessageFormatter<T> {
 
-    protected String getBaseFormattedText(SendNotificationMessageDto messageDto) {
+    public String getBaseFormattedText(SendNotificationMessageDto messageDto) {
         log.debug("Formatting Telegram notification message: title='{}', level='{}'",
                 messageDto.getTittle(), messageDto.getInformationLevel());
 
