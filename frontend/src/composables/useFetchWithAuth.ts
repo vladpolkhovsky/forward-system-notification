@@ -7,7 +7,9 @@ const useFetchWithAuth = createFetch({
   combination: "overwrite",
   options: {
     async beforeFetch({ options }) {
-      options.headers.Authorization = `Bearer ${token}`;
+      const headers = options.headers as Record<string, string> || {};
+      headers["Authorization"] = `Bearer ${token}`;
+      options.headers = headers;
       return { options };
     },
   },
