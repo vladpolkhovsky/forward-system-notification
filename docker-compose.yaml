@@ -30,6 +30,9 @@ services:
       app.jwt.secret: ${APP_JWT_TOKEN}
       app.telegram.notification.token: ${APP_BOT_TG_TOKEN_NOTIFICATION}
       app.telegram.customer.token: ${APP_BOT_TG_TOKEN_CUSTOMER}
+      app.vk.notification.token: ${APP_BOT_VK_TOKEN_NOTIFICATION}
+      app.vk.notification.groupId: ${APP_BOT_VK_GROUPID_NOTIFICATION}
+      app.vk.notification.waitTime: ${APP_BOT_VK_WAITTIME_NOTIFICATION}
       spring.datasource.url: ${APP_DB_URL}
       spring.datasource.username: ${APP_DB_USERNAME}
       spring.datasource.password: ${APP_DB_PASSWORD}
