@@ -56,7 +56,7 @@ public abstract class AbstractNotificationMessageFormatter<T> implements Notific
         return messageBuilder.toString();
     }
 
-    protected String getBaseFormattedText(SendCustomerMessageDto messageDto) {
+    public String getBaseFormattedText(SendCustomerMessageDto messageDto) {
         log.debug("Formatting Telegram notification message: title='{}', level='{}'",
                 messageDto.getTittle(), messageDto.getInformationLevel());
 
@@ -112,7 +112,7 @@ public abstract class AbstractNotificationMessageFormatter<T> implements Notific
         return messageBuilder.toString();
     }
 
-    protected String getLevelIcon(Object informationLevel) {
+    public String getLevelIcon(Object informationLevel) {
         if (informationLevel == null) {
             return InformationLevel.INFO.getIcon();
         }
@@ -128,7 +128,7 @@ public abstract class AbstractNotificationMessageFormatter<T> implements Notific
         }
     }
 
-    protected boolean hasContent(String value) {
+    public boolean hasContent(String value) {
         return value != null && !value.trim().isEmpty();
     }
 

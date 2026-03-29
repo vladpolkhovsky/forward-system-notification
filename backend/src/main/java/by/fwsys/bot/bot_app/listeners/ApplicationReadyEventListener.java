@@ -1,6 +1,7 @@
 package by.fwsys.bot.bot_app.listeners;
 
 import by.fwsys.bot.bot_app.bots.notifications.TelegramNotificationBot;
+import by.fwsys.bot.bot_app.bots.notifications.VkNotificationBot;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,18 +20,19 @@ public class ApplicationReadyEventListener {
     private String tgNotificationClientToken;
 
     private final TelegramNotificationBot tgNotificationBot;
+    private final VkNotificationBot vkNotificationBot;
 
     @EventListener
     @SneakyThrows
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
         TelegramBotsLongPollingApplication tgLoongPooling = new TelegramBotsLongPollingApplication();
         tgLoongPooling.registerBot(tgNotificationClientToken, tgNotificationBot);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> stopAll(tgLoongPooling)));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> stopAll(tgLoongPooling, vkNotificationBot)));
     }
 
     @SneakyThrows
-    private void stopAll(TelegramBotsLongPollingApplication tgApp) {
+    private void stopAll(TelegramBotsLongPollingApplication tgApp, VkNotificationBot vkApp) {
         tgApp.stop();
+        vkApp.stop();
     }
 }

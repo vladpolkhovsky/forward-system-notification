@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "from UserEntity where roles not like '%BANNDED%' and roles not like '%DELETED%'")
     List<UserEntity> findAllNotBanned(Sort sort);
+
+    @Query(value = "from UserEntity where roles not like '%BANNDED%' and roles like concat('%', :role, '%')")
+    List<UserEntity> findByRole(String role);
 }

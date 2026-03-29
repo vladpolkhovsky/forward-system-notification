@@ -28,6 +28,11 @@ const routes: RouteRecordRaw[] = [
         name: "dashboard-users",
         component: () => import("@/views/DashboardUsers.vue"),
       },
+      {
+        path: "send-message",
+        name: "send-message",
+        component: () => import("@/views/SendMessage.vue"),
+      },
     ],
   },
 ];

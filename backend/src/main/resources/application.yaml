@@ -17,6 +17,12 @@ spring:
     password: localPS
     url: jdbc:postgresql://host.docker.internal:5432/local
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /v3/swagger
+
 app:
   jwt:
     secret: secret
@@ -24,6 +30,12 @@ app:
 
   telegram:
     notification:
-      token: token
+      token: ---
     customer:
-      token: token
+      token: ---
+
+  vk:
+    notification:
+      groupId: ---
+      waitTime: ---
+      token: ---

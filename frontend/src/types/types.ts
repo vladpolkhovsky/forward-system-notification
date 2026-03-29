@@ -8,3 +8,9 @@ export type UserWithStatusPageDto = components["schemas"]["PageUserWithStatusDto
 export type NotificationStatusDto = components["schemas"]["NotificationStatusDto"];
 export type NotificationHistoryDto = components["schemas"]["NotificationHistoryDto"];
 export type PageNotificationHistoryDto = components["schemas"]["PageNotificationHistoryDto"];
+export type UiSendNotificationMessageDto = components["schemas"]["UiSendNotificationMessageDto"];
+
+export interface TagStatDto {
+  tag: string;
+  tagCount: number;
+}

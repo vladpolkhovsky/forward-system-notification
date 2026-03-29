@@ -4,7 +4,9 @@ package by.fwsys.bot.bot_app.controllers;
 import by.fwsys.bot.bot_app.dto.NotificationHistoryDto;
 import by.fwsys.bot.bot_app.dto.SendCustomerMessageDto;
 import by.fwsys.bot.bot_app.dto.SendNotificationMessageDto;
+import by.fwsys.bot.bot_app.dto.UiSendNotificationMessageDto;
 import by.fwsys.bot.bot_app.models.entities.SendNotificationHistoryEntity;
+import by.fwsys.bot.bot_app.models.repository.StatisticsRepository;
 import by.fwsys.bot.bot_app.services.customer.CustomerNotificationDispatcher;
 import by.fwsys.bot.bot_app.services.notifications.NotificationDispatcher;
 import by.fwsys.bot.bot_app.services.web.NotificationService;
@@ -18,6 +20,8 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +43,12 @@ public class NotificationController {
         notificationDispatcher.dispatch(messageDto);
 
         log.info("Notification dispatched successfully");
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/ui")
+    public ResponseEntity<SendNotificationMessageDto> sendUi(@RequestBody UiSendNotificationMessageDto messageDto) {
+        notificationDispatcher.sendMessageUi(messageDto);
         return ResponseEntity.ok().build();
     }
 
@@ -74,5 +84,11 @@ public class NotificationController {
                                                              @SortDefault(sort = SendNotificationHistoryEntity.Fields.createdAt, direction = Sort.Direction.DESC)
                                                              Pageable pageable) {
         return ResponseEntity.ok(notificationService.list(userId, pageable));
+    }
+
+    @GetMapping("/stat")
+    public ResponseEntity<List<StatisticsRepository.TagStatProjection>> getStat(@RequestParam(value = "userId", required = false)
+                                                                                Long userId) {
+        return ResponseEntity.ok(notificationService.getStat(userId));
     }
 }

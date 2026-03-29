@@ -24,6 +24,12 @@ const navigation: NavigationMenuItem[] = [
     class: "h-12",
     icon: "i-lucide-users",
   },
+  {
+    label: "Отправить сообщение",
+    to: "/dashboard/send-message",
+    class: "h-12",
+    icon: "i-lucide-send",
+  },
 ];
 
 const handleLogout = () => {
