@@ -8,6 +8,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
+    // Nuxt UI types
+    "types": ["@nuxt/ui"],
+
     // Path mapping for cleaner imports.
     "paths": {
       "@/*": ["./src/*"]

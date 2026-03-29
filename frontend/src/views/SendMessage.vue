@@ -3,6 +3,7 @@ import { useAuth } from "@/composables/useAuth";
 import useFetchWithAuth from "@/composables/useFetchWithAuth";
 import type { UserShortDto } from "@/types/types";
 import type { SelectItem } from "@nuxt/ui";
+import { useToast } from "@nuxt/ui/composables/useToast";
 import { computed, ref } from "vue";
 
 const { token } = useAuth();
