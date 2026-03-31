@@ -159,8 +159,9 @@ watch([canvasRef, fetchNotificationsStat.data], () => {
       <UPagination
         v-model:page="page"
         show-edges
-        :sibling-count="1"
-        :total="fetchNotifications.data.value?.totalPages"
+        :sibling-count="3"
+        :items-per-page="fetchNotifications.data?.value?.pageable?.pageSize"
+        :total="fetchNotifications.data?.value?.totalElements"
       />
     </div>
 

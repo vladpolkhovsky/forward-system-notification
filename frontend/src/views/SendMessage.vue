@@ -24,6 +24,13 @@ const userSelectItems = computed<SelectItem[]>(() => {
   );
 });
 
+const idSendDisabled = computed(
+  () =>
+    (state.value.userId == null && state.value.roles.length == 0) ||
+    !state.value.tittle ||
+    !state.value.description,
+);
+
 const resolveUsername = (userId: number) => {
   return (
     fetchUsers.data?.value
@@ -42,7 +49,7 @@ interface SendFormState {
 const state = ref<SendFormState>({
   roles: [],
   userId: null,
-  tittle: "Тема",
+  tittle: "",
   description: "",
 });
 
@@ -72,7 +79,7 @@ const handleSubmit = async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(state.value)
+    body: JSON.stringify(state.value),
   })
     .then((resp) => {
       if (resp.ok) {
@@ -103,91 +110,97 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="w-full p-3">
-    <UForm class="w-full" :state="state">
-      <div class="justify-center items-center flex flex-col gap-5">
-        <div class="flex justify-center">
-          <div class="flex flex-col gap-5">
-            <UFormField
-              label="Категория пользователей"
-              name="roles"
-              class="min-w-96"
-            >
-              <USelect
-                :items="categorySelectItems"
-                v-model="state.roles"
-                value-key="value"
-                placeholder="Категория пользователей"
-                multiple
-                @change="state.userId = null"
-              />
-            </UFormField>
+  <div class="flex items-center justify-center w-full min-h-[80vh]">
+    <UForm
+      class="border border-muted rounded-2xl p-8 w-full max-w-2xl"
+      :state="state"
+      @submit="handleSubmit"
+    >
+      <div class="flex flex-col gap-6">
+        <span class="text-3xl font-semibold text-center mb-2"
+          >Отправка уведомлений</span
+        >
 
-            <UFormField
-              label="Пользователь для отправки"
-              name="userId"
-              class="min-w-96"
-            >
-              <div class="flex items-center gap-3">
-                <USelectMenu
-                  class="w-64"
-                  v-model="state.userId"
-                  value-key="value"
-                  :items="userSelectItems"
-                  placeholder="Выберите автора"
-                  @change="state.roles = []"
-                />
+        <hr />
 
-                <UButton
-                  v-if="state.userId"
-                  icon="i-lucide-trash"
-                  size="sm"
-                  color="error"
-                  variant="solid"
-                  @click="state.userId = null"
-                />
-              </div>
-            </UFormField>
-          </div>
-          <div class="flex flex-col gap-5">
-            <div class="w-128">
-              <UFormField
-                label="Тема сообщения"
-                name="tittle"
-                class="min-w-96"
-                required
-              >
-                <UInput class="w-full" v-model="state.tittle" />
-              </UFormField>
-            </div>
-            <div class="w-128">
-              <UFormField
-                label="Текст сообщения"
-                name="discription"
-                class="min-w-96"
-                required
-              >
-                <UTextarea
-                  class="w-full"
-                  v-model="state.description"
-                  :rows="10"
-                />
-              </UFormField>
-            </div>
+        <UFormField label="Тема сообщения" name="tittle" required>
+          <UInput
+            v-model="state.tittle"
+            placeholder="Введите тему сообщения"
+            size="lg"
+            class="w-full"
+          />
+        </UFormField>
 
+        <UFormField label="Текст сообщения" name="description" required>
+          <UTextarea
+            v-model="state.description"
+            :rows="8"
+            placeholder="Введите текст сообщения"
+            size="lg"
+            class="w-full"
+          />
+        </UFormField>
+
+        <hr />
+
+        <UFormField
+          label="Необходимо выбрать пользователя или категорию пользователей"
+          :required="state.roles.length == 0 && state.userId == null"
+          :error="
+            state.roles.length == 0 && state.userId == null
+              ? 'Не выбран пользователь или категория'
+              : ''
+          "
+          name="need"
+        ></UFormField>
+
+        <hr />
+
+        <UFormField label="Категория пользователей" name="roles">
+          <USelect
+            class="w-full"
+            :items="categorySelectItems"
+            v-model="state.roles"
+            value-key="value"
+            placeholder="Выберите категорию"
+            multiple
+            size="lg"
+            @change="state.userId = null"
+          />
+        </UFormField>
+        <UFormField label="Пользователь для отправки" name="userId">
+          <div class="flex items-center gap-3">
+            <USelect
+              class="w-full"
+              v-model="state.userId"
+              value-key="value"
+              :items="userSelectItems"
+              placeholder="Выберите пользователя"
+              size="lg"
+              @change="state.roles = []"
+            />
             <UButton
-              class="w-full justify-center"
-              icon="i-lucide-rocket"
-              @click="handleSubmit"
-              :disabled="
-                (state.userId == null && state.roles.length == 0) ||
-                state.tittle.length == 0 ||
-                state.description.length == 0
-              "
-              >Отправить</UButton
-            >
+              v-if="state.userId"
+              icon="i-lucide-trash"
+              size="lg"
+              color="error"
+              variant="soft"
+              @click="state.userId = null"
+            />
           </div>
-        </div>
+        </UFormField>
+
+        <UButton
+          type="submit"
+          class="w-full justify-center mt-4"
+          icon="i-lucide-send"
+          size="lg"
+          :color="idSendDisabled ? 'warning' : 'primary'"
+          :disabled="idSendDisabled"
+        >
+          Отправить
+        </UButton>
       </div>
     </UForm>
   </div>
