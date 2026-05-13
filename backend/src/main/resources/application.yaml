@@ -24,6 +24,8 @@ springdoc:
     path: /v3/swagger
 
 app:
+  gsync:
+    url: http://localhost:9095
   jwt:
     secret: secret
     expiration: 7200000

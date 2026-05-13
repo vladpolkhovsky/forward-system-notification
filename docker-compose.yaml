@@ -28,6 +28,7 @@ services:
     environment:
       server.port: 8085
       app.jwt.secret: ${APP_JWT_TOKEN}
+      app.gsync.url: ${APP_GSYNC_URL}
       app.telegram.notification.token: ${APP_BOT_TG_TOKEN_NOTIFICATION}
       app.telegram.customer.token: ${APP_BOT_TG_TOKEN_CUSTOMER}
       app.vk.notification.token: ${APP_BOT_VK_TOKEN_NOTIFICATION}

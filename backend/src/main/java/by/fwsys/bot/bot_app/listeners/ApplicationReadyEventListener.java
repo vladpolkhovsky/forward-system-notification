@@ -2,11 +2,13 @@ package by.fwsys.bot.bot_app.listeners;
 
 import by.fwsys.bot.bot_app.bots.notifications.TelegramNotificationBot;
 import by.fwsys.bot.bot_app.bots.notifications.VkNotificationBot;
+import by.fwsys.bot.bot_app.events.GDocxSyncEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 @RequiredArgsConstructor
 public class ApplicationReadyEventListener {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     @Value("${app.telegram.notification.token}")
     private String tgNotificationClientToken;
 
@@ -28,7 +31,10 @@ public class ApplicationReadyEventListener {
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
         TelegramBotsLongPollingApplication tgLoongPooling = new TelegramBotsLongPollingApplication();
         tgLoongPooling.registerBot(tgNotificationClientToken, tgNotificationBot);
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> stopAll(tgLoongPooling, vkNotificationBot)));
+
+        applicationEventPublisher.publishEvent(new GDocxSyncEvent());
     }
 
     @SneakyThrows
